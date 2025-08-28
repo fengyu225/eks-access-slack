@@ -1,0 +1,82 @@
+apiVersion: access.eksaccess.io/v1alpha1
+kind: ApprovalPolicy
+metadata:
+  name: production-access-policy
+  namespace: eks-access
+spec:
+  description: "Production cluster access policy requiring multi-stage approval"
+  priority: 10
+  enabled: true
+  autoApprove: false
+  maxAccessDuration: "8h"
+  conditions:
+    accounts:
+      - "123456789012"
+      - "987654321098"
+    clusters:
+      - "prod-cluster-1"
+      - "prod-cluster-2"
+    accessPolicies:
+      - "AmazonEKSClusterPolicy"
+      - "AmazonEKSWorkerNodePolicy"
+    iamRolePatterns:
+      - "eks-admin-*"
+      - "eks-developer-*"
+    requesterPatterns:
+      - "user@company.com"
+    tags:
+      environment: "production"
+      team: "platform"
+  stages:
+    - stageNumber: 1
+      name: "Team Lead Approval"
+      approvers:
+        - "team-lead@company.com"
+        - "senior-dev@company.com"
+      requiredApprovals: 1
+      allowSelfApproval: false
+      timeout: "4h"
+      slackChannels:
+        - "#team-notifications"
+    - stageNumber: 2
+      name: "Platform Team Approval"
+      approvers:
+        - "platform-admin@company.com"
+        - "devops-lead@company.com"
+      requiredApprovals: 1
+      allowSelfApproval: false
+      timeout: "8h"
+      slackChannels:
+        - "#platform-alerts"
+        - "#devops-team"
+---
+apiVersion: access.eksaccess.io/v1alpha1
+kind: ApprovalPolicy
+metadata:
+  name: development-access-policy
+  namespace: eks-access
+spec:
+  description: "Development cluster access policy with simplified approval"
+  priority: 5
+  enabled: true
+  autoApprove: false
+  maxAccessDuration: "24h"
+  conditions:
+    accounts:
+      - "111222333444"
+    clusters:
+      - "dev-cluster-1"
+      - "staging-cluster-1"
+    tags:
+      environment: "development"
+  stages:
+    - stageNumber: 1
+      name: "Developer Approval"
+      approvers:
+        - "dev-lead@company.com"
+        - "senior-dev@company.com"
+      requiredApprovals: 1
+      allowSelfApproval: true
+      timeout: "12h"
+      slackChannels:
+        - "#dev-team"

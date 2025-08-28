@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eks-access-slack-config
+  namespace: eks-access-slack
+data:
+  AWS_REGION: "ap-northeast-2"
+  AWS_EKS_CLUSTER_ARN: "arn:aws:eks:ap-northeast-2:072422391281:cluster/test-eks"
+  
+  # Application Configuration
+  K8S_NAMESPACE: "eks-access-system"
+  DEFAULT_REGION: "ap-northeast-2"
+  
+  # Metrics and Health Check Configuration
+  METRICS_BIND_ADDRESS: ":8080"
+  HEALTH_PROBE_BIND_ADDRESS: ":8081"

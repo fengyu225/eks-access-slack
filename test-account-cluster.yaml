@@ -1,0 +1,42 @@
+apiVersion: access.eksaccess.io/v1alpha1
+kind: AWSAccount
+metadata:
+  name: test-account
+  namespace: eks-access-system
+spec:
+  accountId: "072422391281"
+  name: "Test Account"
+  description: "Test AWS account for EKS access testing"
+  environment: "development"
+  region: "ap-northeast-2"
+  enabled: true
+  tags:
+    environment: "development"
+    team: "platform"
+    purpose: "testing"
+---
+apiVersion: access.eksaccess.io/v1alpha1
+kind: EKSCluster
+metadata:
+  name: test-eks-cluster
+  namespace: eks-access-system
+spec:
+  clusterName: "test-eks"
+  accountId: "072422391281"
+  region: "ap-northeast-2"
+  clusterArn: "arn:aws:eks:ap-northeast-2:072422391281:cluster/test-eks"
+  description: "Test EKS cluster for access management testing"
+  environment: "development"
+  version: "1.28"
+  enabled: true
+  supportedAccessPolicies:
+    - "AmazonEKSViewPolicy"
+    - "AmazonEKSEditPolicy"
+    - "AmazonEKSAdminPolicy"
+    - "AmazonEKSClusterAdminPolicy"
+  defaultAccessPolicy: "AmazonEKSViewPolicy"
+  tags:
+    environment: "development"
+    team: "platform"
+    purpose: "testing"
+    cluster-name: "test-eks"

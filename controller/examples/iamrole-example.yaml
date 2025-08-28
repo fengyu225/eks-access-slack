@@ -1,0 +1,59 @@
+apiVersion: access.eksaccess.io/v1alpha1
+kind: IAMRole
+metadata:
+  name: eks-admin-role
+  namespace: eks-access-system
+spec:
+  roleArn: "arn:aws:iam::123456789012:role/EKSAdminRole"
+  displayName: "EKS Admin Role"
+  accountId: "123456789012"
+  description: "Administrative role for EKS cluster management"
+  roleType: "admin"
+  enabled: true
+  allowedPrincipals:
+    - "admin-team@company.com"
+    - "platform-team@company.com"
+  tags:
+    environment: "production"
+    team: "platform"
+    cost-center: "platform-infra"
+---
+apiVersion: access.eksaccess.io/v1alpha1
+kind: IAMRole
+metadata:
+  name: eks-developer-role
+  namespace: eks-access-system
+spec:
+  roleArn: "arn:aws:iam::123456789012:role/EKSDeveloperRole"
+  displayName: "EKS Developer Role"
+  accountId: "123456789012"
+  description: "Developer role for application deployment"
+  roleType: "developer"
+  enabled: true
+  allowedPrincipals:
+    - "dev-team@company.com"
+    - "qa-team@company.com"
+  tags:
+    environment: "development"
+    team: "development"
+    cost-center: "app-dev"
+---
+apiVersion: access.eksaccess.io/v1alpha1
+kind: IAMRole
+metadata:
+  name: eks-readonly-role
+  namespace: eks-access-system
+spec:
+  roleArn: "arn:aws:iam::123456789012:role/EKSReadOnlyRole"
+  displayName: "EKS Read-Only Role"
+  accountId: "123456789012"
+  description: "Read-only role for monitoring and debugging"
+  roleType: "readonly"
+  enabled: true
+  allowedPrincipals:
+    - "monitoring-team@company.com"
+    - "support-team@company.com"
+  tags:
+    environment: "all"
+    team: "monitoring"
+    cost-center: "platform-ops"

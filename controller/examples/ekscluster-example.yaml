@@ -1,0 +1,71 @@
+apiVersion: access.eksaccess.io/v1alpha1
+kind: EKSCluster
+metadata:
+  name: production-cluster
+  namespace: eks-access-system
+spec:
+  clusterName: "production-cluster"
+  accountId: "123456789012"
+  region: "ap-northeast-2"
+  clusterArn: "arn:aws:eks:ap-northeast-2:123456789012:cluster/production-cluster"
+  description: "Main production EKS cluster"
+  environment: "production"
+  version: "1.28"
+  enabled: true
+  supportedAccessPolicies:
+    - "AmazonEKSViewPolicy"
+    - "AmazonEKSEditPolicy"
+    - "AmazonEKSAdminPolicy"
+    - "AmazonEKSClusterAdminPolicy"
+  defaultAccessPolicy: "AmazonEKSViewPolicy"
+  tags:
+    environment: "production"
+    team: "platform"
+    cost-center: "platform-infra"
+---
+apiVersion: access.eksaccess.io/v1alpha1
+kind: EKSCluster
+metadata:
+  name: staging-cluster
+  namespace: eks-access-system
+spec:
+  clusterName: "staging-cluster"
+  accountId: "123456789013"
+  region: "ap-northeast-2"
+  clusterArn: "arn:aws:eks:ap-northeast-2:123456789013:cluster/staging-cluster"
+  description: "Staging EKS cluster for testing"
+  environment: "staging"
+  version: "1.28"
+  enabled: true
+  supportedAccessPolicies:
+    - "AmazonEKSViewPolicy"
+    - "AmazonEKSEditPolicy"
+    - "AmazonEKSAdminPolicy"
+  defaultAccessPolicy: "AmazonEKSViewPolicy"
+  tags:
+    environment: "staging"
+    team: "platform"
+    cost-center: "platform-staging"
+---
+apiVersion: access.eksaccess.io/v1alpha1
+kind: EKSCluster
+metadata:
+  name: development-cluster
+  namespace: eks-access-system
+spec:
+  clusterName: "development-cluster"
+  accountId: "123456789014"
+  region: "ap-northeast-2"
+  clusterArn: "arn:aws:eks:ap-northeast-2:123456789014:cluster/development-cluster"
+  description: "Development EKS cluster for development and testing"
+  environment: "development"
+  version: "1.28"
+  enabled: true
+  supportedAccessPolicies:
+    - "AmazonEKSViewPolicy"
+    - "AmazonEKSEditPolicy"
+  defaultAccessPolicy: "AmazonEKSViewPolicy"
+  tags:
+    environment: "development"
+    team: "development"
+    cost-center: "app-dev"

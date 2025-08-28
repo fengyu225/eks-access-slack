@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eks-access-slack
+  namespace: eks-access-slack
+  labels:
+    app: eks-access-slack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eks-access-slack
+  template:
+    metadata:
+      labels:
+        app: eks-access-slack
+    spec:
+      serviceAccountName: eks-access-slack-sa
+      containers:
+      - name: eks-access-slack
+        image: eks-access-slack:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: metrics
+        - containerPort: 8081
+          name: health
+        - containerPort: 8082
+          name: webhook
+        - containerPort: 9443
+          name: webhook-secure
+        env:
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: eks-access-slack-config
+              key: AWS_REGION
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: eks-access-slack-secrets
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: eks-access-slack-secrets
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_SESSION_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: eks-access-slack-secrets
+              key: AWS_SESSION_TOKEN
+        - name: SLACK_BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: eks-access-slack-secrets
+              key: SLACK_BOT_TOKEN
+        - name: SLACK_APP_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: eks-access-slack-secrets
+              key: SLACK_APP_TOKEN
+        - name: K8S_NAMESPACE
+          valueFrom:
+            configMapKeyRef:
+              name: eks-access-slack-config
+              key: K8S_NAMESPACE
+        - name: DEFAULT_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: eks-access-slack-config
+              key: DEFAULT_REGION
+        - name: METRICS_BIND_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: eks-access-slack-config
+              key: METRICS_BIND_ADDRESS
+        - name: HEALTH_PROBE_BIND_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: eks-access-slack-config
+              key: HEALTH_PROBE_BIND_ADDRESS
+        - name: LEADER_ELECT
+          value: "false"
+        - name: WATCH_NAMESPACE
+          value: "eks-access-slack"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 65532
+          capabilities:
+            drop:
+            - "ALL"

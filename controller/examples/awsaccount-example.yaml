@@ -1,0 +1,50 @@
+apiVersion: access.eksaccess.io/v1alpha1
+kind: AWSAccount
+metadata:
+  name: production-account
+  namespace: eks-access-system
+spec:
+  accountId: "123456789012"
+  name: "Production Account"
+  description: "Main production AWS account for EKS clusters"
+  environment: "production"
+  region: "ap-northeast-2"
+  enabled: true
+  tags:
+    environment: "production"
+    team: "platform"
+    cost-center: "platform-infra"
+---
+apiVersion: access.eksaccess.io/v1alpha1
+kind: AWSAccount
+metadata:
+  name: staging-account
+  namespace: eks-access-system
+spec:
+  accountId: "123456789013"
+  name: "Staging Account"
+  description: "Staging AWS account for testing and validation"
+  environment: "staging"
+  region: "ap-northeast-2"
+  enabled: true
+  tags:
+    environment: "staging"
+    team: "platform"
+    cost-center: "platform-staging"
+---
+apiVersion: access.eksaccess.io/v1alpha1
+kind: AWSAccount
+metadata:
+  name: development-account
+  namespace: eks-access-system
+spec:
+  accountId: "123456789014"
+  name: "Development Account"
+  description: "Development AWS account for development and testing"
+  environment: "development"
+  region: "ap-northeast-2"
+  enabled: true
+  tags:
+    environment: "development"
+    team: "development"
+    cost-center: "app-dev"

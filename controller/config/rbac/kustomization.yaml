@@ -1,0 +1,33 @@
+resources:
+# All RBAC will be applied under this service account in
+# the deployment namespace. You may comment out this resource
+# if your manager will use a service account that exists at
+# runtime. Be sure to update RoleBinding and ClusterRoleBinding
+# subjects if changing service account names.
+- service_account.yaml
+- role.yaml
+- role_binding.yaml
+- leader_election_role.yaml
+- leader_election_role_binding.yaml
+# Metrics endpoint protection has been removed
+# as Prometheus monitoring is not needed for this controller
+# For each CRD, "Admin", "Editor" and "Viewer" roles are scaffolded by
+# default, aiding admins in cluster management. Those roles are
+# not used by the controller itself. You can comment the following lines
+# if you do not want those helpers be installed with your Project.
+- approvalpolicy_admin_role.yaml
+- approvalpolicy_editor_role.yaml
+- approvalpolicy_viewer_role.yaml
+- eksaccessrequest_admin_role.yaml
+- eksaccessrequest_editor_role.yaml
+- eksaccessrequest_viewer_role.yaml
+- iamrole_admin_role.yaml
+- iamrole_editor_role.yaml
+- iamrole_viewer_role.yaml
+- awsaccount_admin_role.yaml
+- awsaccount_editor_role.yaml
+- awsaccount_viewer_role.yaml
+- ekscluster_admin_role.yaml
+- ekscluster_editor_role.yaml
+- ekscluster_viewer_role.yaml
+

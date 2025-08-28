@@ -1,0 +1,90 @@
+# This file is generated from controller RBAC annotations using make manifests
+# Do not edit manually - update RBAC annotations in controller code instead
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eks-access-slack-sa
+  namespace: eks-access-slack
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: eks-access-slack-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - access.eksaccess.io
+  resources:
+  - approvalpolicies
+  - eksaccessrequests
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - access.eksaccess.io
+  resources:
+  - approvalpolicies/finalizers
+  - eksaccessrequests/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - access.eksaccess.io
+  resources:
+  - approvalpolicies/status
+  - awsaccounts/status
+  - eksaccessrequests/status
+  - eksclusters/status
+  - iamroles/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - access.eksaccess.io
+  resources:
+  - awsaccounts
+  - eksclusters
+  - iamroles
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks-access-slack-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: eks-access-slack-role
+subjects:
+- kind: ServiceAccount
+  name: eks-access-slack-sa
+  namespace: eks-access-slack

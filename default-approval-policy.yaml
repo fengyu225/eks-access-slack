@@ -1,0 +1,20 @@
+apiVersion: access.eksaccess.io/v1alpha1
+kind: ApprovalPolicy
+metadata:
+  name: default
+  namespace: eks-access-system
+spec:
+  description: "Default approval policy - approves all requests"
+  priority: 1
+  enabled: true
+  autoApprove: false
+  maxAccessDuration: "24h"
+  conditions: {} 
+  stages:
+    - stageNumber: 1
+      name: "Default Approval"
+      approvers:
+        - "fengyu225@gmail.com"
+      requiredApprovals: 1
+      allowSelfApproval: true
+      timeout: "24h"

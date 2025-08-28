@@ -1,0 +1,33 @@
+apiVersion: access.eksaccess.io/v1alpha1
+kind: ApprovalPolicy
+metadata:
+  name: test-access-policy
+  namespace: eks-access-system
+spec:
+  description: "Test cluster access policy for self-approval testing"
+  priority: 10
+  enabled: true
+  autoApprove: false
+  maxAccessDuration: "24h"
+  conditions:
+    accounts:
+      - "072422391281"
+    clusters:
+      - "test-eks"
+    accessPolicies:
+      - "AmazonEKSViewPolicy"
+      - "AmazonEKSEditPolicy"
+      - "AmazonEKSAdminPolicy"
+      - "AmazonEKSClusterAdminPolicy"
+    iamRolePatterns:
+      - "arn:aws:iam::072422391281:role/*"
+    tags:
+      environment: "testing"
+  stages:
+    - stageNumber: 1
+      name: "Admin Approval"
+      approvers:
+        - "fengyu225@gmail.com"
+      requiredApprovals: 1
+      allowSelfApproval: true
+      timeout: "24h"
