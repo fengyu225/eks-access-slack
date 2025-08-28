@@ -24,6 +24,14 @@ rules:
   - create
   - patch
 - apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - access.eksaccess.io
   resources:
   - approvalpolicies
@@ -50,6 +58,7 @@ rules:
   - awsaccounts/status
   - eksaccessrequests/status
   - eksclusters/status
+  - iamroles/status
   verbs:
   - get
   - patch

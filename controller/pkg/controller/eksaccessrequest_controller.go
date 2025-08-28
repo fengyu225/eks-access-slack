@@ -99,6 +99,7 @@ type EKSAccessRequestReconciler struct {
 // +kubebuilder:rbac:groups=access.eksaccess.io,resources=iamroles/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=core,resources=events,verbs=create;patch
 // +kubebuilder:rbac:groups=core,resources=configmaps,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=namespaces,verbs=get;list;watch
 
 func (r *EKSAccessRequestReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("eksaccessrequest", req.NamespacedName)
